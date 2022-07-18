@@ -1,11 +1,19 @@
 # Python Package to Interact with the SUI BlockChain
 
-# To generate methods from API Json Data 
+***To generate methods from API Json Data*** 
 
-run
+*run*
 `./gen_methods.py`
 
 This will generate a file named `./pysui/methods/rpc_methods.py`
+
+**Create a .env file and locate in the folder**
+
+```
+_default_endpoint=http://<NODE_ADDRESS>:9000
+_default_timeout=30
+```
+
 
 Example:
 
