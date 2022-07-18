@@ -9,7 +9,7 @@ This will generate a file named `./pysui/methods/rpc_methods.py`
 
 Example:
 
-```
+```python
 from pysui.methods import rpc_methods
 from pysui.includes.config import *
 
