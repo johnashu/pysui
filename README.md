@@ -14,8 +14,7 @@ _default_endpoint=http://<NODE_ADDRESS>:9000
 _default_timeout=30
 ```
 
-
-Example:
+**Example Program**
 
 ```python
 from pysui.methods import rpc_methods
