@@ -20,7 +20,9 @@ _default_timeout=30
 from pysui.methods import rpc_methods
 from pysui.includes.config import *
 
-_default_endpoint = envs._default_endpoint
+sui_rpc ='https://gateway.devnet.sui.io:443'
+_default_endpoint = sui_rpc
+# _default_endpoint = envs._default_endpoint
 _default_timeout = envs._default_timeout
 
 count = rpc_methods.get_recent_transactions(

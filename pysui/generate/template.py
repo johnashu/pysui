@@ -2,7 +2,7 @@ imports_constants = """
 from pysui.rpc.request import (
     rpc_request
 )
-from pysui.exceptions import (
+from pysui.exceptions.exceptions import (
     TxConfirmationTimedoutError,
     InvalidRPCReplyError
 )

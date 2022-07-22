@@ -1,5 +1,8 @@
 from pysui.rpc.request import rpc_request
-from pysui.exceptions import TxConfirmationTimedoutError, InvalidRPCReplyError
+from pysui.exceptions.exceptions import (
+    TxConfirmationTimedoutError,
+    InvalidRPCReplyError,
+)
 
 _default_endpoint = "http://localhost:9000"
 _default_timeout = 30
@@ -59,7 +62,7 @@ def execute_transaction(
 
     Parameters
     ----------
-    tx_bytes: :obj:
+        tx_bytes: :obj:
         signature: :obj:
         pub_key: :obj:
 
@@ -1150,7 +1153,7 @@ def transfer_object(
 
     Parameters
     ----------
-    signer: :obj:
+        signer: :obj:
         object_id: :obj:
         gas: :obj:
         gas_budget: :obj: `integer`
