@@ -200,20 +200,22 @@ if __name__ == "__main__":
     gas = 100
     SLEEP = 1
     do_send_coins = True
-    while 1:
-        sync(wallet)
-        count = do_count()
-        tx = count[0][1]
-        do_get_tx(tx)
-        owned = get_owned(wallet)
-        obj = owned[0]["objectId"]
-        get_from_to(wallet)
-        do_get_object(obj)
-        t = get_total_tx()
-        get_owned_by_object(obj)
-        get_tx_in_range(t - 10, t)
-        tx_by_input(obj)
-        tx_by_mutated(obj)
-        if do_send_coins:
-            send_coins(num_req, wallet, wallet2, _gas_budget=gas)
-        sleep(SLEEP)
+
+    sync(wallet)
+    count = do_count()
+    tx = count[0][1]
+    do_get_tx(tx)
+    owned = get_owned(wallet)
+    obj = owned[0]["objectId"]
+    get_from_to(wallet)
+    do_get_object(obj)
+    t = get_total_tx()
+    get_owned_by_object(obj)
+    get_tx_in_range(t - 10, t)
+    tx_by_input(obj)
+    tx_by_mutated(obj)
+    
+    # Only if signing is setup.
+    if do_send_coins:
+        send_coins(num_req, wallet, wallet2, _gas_budget=gas)
+    sleep(SLEEP)
