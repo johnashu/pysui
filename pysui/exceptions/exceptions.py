@@ -1,4 +1,4 @@
-from .rpc.exceptions import RPCError, RequestsError, RequestsTimeoutError
+from ..rpc.exceptions import RPCError, RequestsError, RequestsTimeoutError
 
 
 class InvalidRPCReplyError(RuntimeError):

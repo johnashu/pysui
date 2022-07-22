@@ -8,7 +8,7 @@ class RPCError(RuntimeError):
 
     def __init__(self, method, endpoint, error):
         self.error = error
-        super().__init__(f"Error in reply from {endpoint}: {method} returned {error}")
+        super().__init__(f"Error in reply from {endpoint}: {method} returned {error}\n")
 
 
 class RequestsError(requests.exceptions.RequestException):
