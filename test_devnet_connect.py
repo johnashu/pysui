@@ -65,7 +65,6 @@ def get_signed(address: str, tx: str):
     )
     # send request
     response = requests.post(ext_sign_url, params=json.dumps(params), headers=headers)
-    log.info(headers)
     log.info(f"Signed Response  ::  {response.json()}\n")
 
     return response.json()
@@ -128,16 +127,14 @@ def send_sui_tx(
     return sign_and_execute(tx, signer)
 
 
-def send_sui(txns_per_run, wallet, wallet1, amount, _gas_budget=100):
+def send_sui(txns_per_run, wallet, wallet1, amount, sui_object_id, _gas_budget=100):
 
     sent = 0
 
     st = datetime.datetime.now()
 
     for i, _ in enumerate(range(txns_per_run)):
-        owned = get_owned(wallet, _default_endpoint=sui_rpc)
         try:
-            sui_object_id = owned[1]["objectId"]
             amount_sent = send_sui_tx(
                 wallet, wallet1, sui_object_id, _gas_budget, amount
             )
@@ -176,16 +173,14 @@ def send_obj_tx(
     return sign_and_execute(tx, _from)
 
 
-def send_obj(txns_per_run, wallet, wallet1, _gas_budget=100):
+def send_obj(
+    txns_per_run, wallet, wallet1, _object_id, _gas_object_id, _gas_budget=100
+):
 
     st = datetime.datetime.now()
 
     for i, _ in enumerate(range(txns_per_run)):
-
-        owned = get_owned(wallet, _default_endpoint=sui_rpc)
         try:
-            _object_id = owned[0]["objectId"]
-            _gas_object_id = owned[1]["objectId"]
             send_obj_tx(wallet, wallet1, _object_id, _gas_object_id, _gas_budget)
             pass
         except RPCError as e:
@@ -287,14 +282,18 @@ if __name__ == "__main__":
         tx_by_mutated(obj)
 
         if do_send_coins_and_objects:
+            # Only via Devnet for now..
+            owned = get_owned(wallet, _default_endpoint=sui_rpc)
+            obj = owned[0]["objectId"]
+            gas_obj = owned[1]["objectId"]
 
-            send_obj(txns_per_run, wallet, wallet2, _gas_budget=gas)
+            send_obj(txns_per_run, wallet, wallet2, obj, gas_obj, _gas_budget=gas)
 
             sui_coins_sent += send_sui(
-                txns_per_run, wallet, wallet1, amount, _gas_budget=gas
+                txns_per_run, wallet, wallet1, amount, obj, _gas_budget=gas
             )
         sleep(SLEEP)
 
     log.info(
-        f"Completed {RUNS}..\nSent {sui_coins_sent} $SUI Coins in {RUNS * txns_per_run} Transactions\n"
+        f"Completed {RUNS} Runs..\nSent {sui_coins_sent} $SUI Coins in {RUNS * txns_per_run} Transactions\n"
     )

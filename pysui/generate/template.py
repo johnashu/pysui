@@ -1,13 +1,11 @@
 imports_constants = """
-from pysui.rpc.request import (
-    rpc_request
-)
+from pysui.rpc.request import rpc_request
 from pysui.exceptions.exceptions import (
     TxConfirmationTimedoutError,
-    InvalidRPCReplyError
+    InvalidRPCReplyError,
 )
 
-_default_endpoint = 'http://localhost:9000'
+_default_endpoint = "http://localhost:9000"
 _default_timeout = 30
 
 """
@@ -18,8 +16,7 @@ def {}({} endpoint=_default_endpoint, timeout=_default_timeout) -> list:
     {}
 
     Parameters
-    ----------
-    {}
+    ----------{}
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional

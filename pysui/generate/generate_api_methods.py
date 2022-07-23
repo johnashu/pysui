@@ -41,7 +41,7 @@ def build_method(
     args_desc = ""
     for a in params:
         t = a.get("schema").get("type")
-        args_desc += f"{a['name']}: :obj: {'' if not t else f'`{t}`'}\n\t"
+        args_desc += f"\n\t{a['name']}: :obj: {'' if not t else f'`{t}`'}"
     params = [x["name"] for x in params]
     args = params = ", ".join(params)
     if args:

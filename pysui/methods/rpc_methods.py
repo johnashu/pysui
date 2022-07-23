@@ -21,11 +21,10 @@ def batch_transaction(
 
     Parameters
     ----------
-    signer: :obj:
+        signer: :obj:
         single_transaction_params: :obj: `array`
         gas: :obj:
         gas_budget: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -65,7 +64,6 @@ def execute_transaction(
         tx_bytes: :obj:
         signature: :obj:
         pub_key: :obj:
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -107,11 +105,10 @@ def get_events_by_event_type(
 
     Parameters
     ----------
-    event_type: :obj: `string`
+        event_type: :obj: `string`
         count: :obj: `integer`
         start_time: :obj: `integer`
         end_time: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -154,12 +151,11 @@ def get_events_by_module(
 
     Parameters
     ----------
-    package: :obj:
+        package: :obj:
         module: :obj: `string`
         count: :obj: `integer`
         start_time: :obj: `integer`
         end_time: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -201,11 +197,10 @@ def get_events_by_object(
 
     Parameters
     ----------
-    object: :obj:
+        object: :obj:
         count: :obj: `integer`
         start_time: :obj: `integer`
         end_time: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -247,11 +242,10 @@ def get_events_by_owner(
 
     Parameters
     ----------
-    owner: :obj:
+        owner: :obj:
         count: :obj: `integer`
         start_time: :obj: `integer`
         end_time: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -293,11 +287,10 @@ def get_events_by_sender(
 
     Parameters
     ----------
-    sender: :obj:
+        sender: :obj:
         count: :obj: `integer`
         start_time: :obj: `integer`
         end_time: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -334,8 +327,7 @@ def get_events_by_transaction(
 
     Parameters
     ----------
-    digest: :obj:
-
+        digest: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -370,8 +362,7 @@ def get_object(object_id, endpoint=_default_endpoint, timeout=_default_timeout) 
 
     Parameters
     ----------
-    object_id: :obj:
-
+        object_id: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -408,8 +399,7 @@ def get_objects_owned_by_address(
 
     Parameters
     ----------
-    address: :obj:
-
+        address: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -446,8 +436,7 @@ def get_objects_owned_by_object(
 
     Parameters
     ----------
-    object_id: :obj:
-
+        object_id: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -484,8 +473,7 @@ def get_raw_object(
 
     Parameters
     ----------
-    object_id: :obj:
-
+        object_id: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -522,8 +510,7 @@ def get_recent_transactions(
 
     Parameters
     ----------
-    count: :obj: `integer`
-
+        count: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -560,7 +547,6 @@ def get_total_transaction_number(
 
     Parameters
     ----------
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -597,8 +583,7 @@ def get_transaction(
 
     Parameters
     ----------
-    digest: :obj:
-
+        digest: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -635,8 +620,7 @@ def get_transactions_by_input_object(
 
     Parameters
     ----------
-    object: :obj:
-
+        object: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -673,10 +657,9 @@ def get_transactions_by_move_function(
 
     Parameters
     ----------
-    package: :obj:
+        package: :obj:
         module: :obj: `string`
         function: :obj: `string`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -713,8 +696,7 @@ def get_transactions_by_mutated_object(
 
     Parameters
     ----------
-    object: :obj:
-
+        object: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -751,8 +733,7 @@ def get_transactions_from_address(
 
     Parameters
     ----------
-    addr: :obj:
-
+        addr: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -789,9 +770,8 @@ def get_transactions_in_range(
 
     Parameters
     ----------
-    start: :obj: `integer`
+        start: :obj: `integer`
         end: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -828,8 +808,7 @@ def get_transactions_to_address(
 
     Parameters
     ----------
-    addr: :obj:
-
+        addr: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -872,12 +851,11 @@ def merge_coins(
 
     Parameters
     ----------
-    signer: :obj:
+        signer: :obj:
         primary_coin: :obj:
         coin_to_merge: :obj:
         gas: :obj:
         gas_budget: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -923,7 +901,7 @@ def move_call(
 
     Parameters
     ----------
-    signer: :obj:
+        signer: :obj:
         package_object_id: :obj:
         module: :obj: `string`
         function: :obj: `string`
@@ -931,7 +909,6 @@ def move_call(
         arguments: :obj: `array`
         gas: :obj:
         gas_budget: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -982,11 +959,10 @@ def publish(
 
     Parameters
     ----------
-    sender: :obj:
+        sender: :obj:
         compiled_modules: :obj: `array`
         gas: :obj:
         gas_budget: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -1029,12 +1005,11 @@ def split_coin(
 
     Parameters
     ----------
-    signer: :obj:
+        signer: :obj:
         coin_object_id: :obj:
         split_amounts: :obj: `array`
         gas: :obj:
         gas_budget: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -1071,8 +1046,7 @@ def subscribe_event(
 
     Parameters
     ----------
-    filter: :obj:
-
+        filter: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -1109,8 +1083,7 @@ def sync_account_state(
 
     Parameters
     ----------
-    address: :obj:
-
+        address: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -1158,7 +1131,6 @@ def transfer_object(
         gas: :obj:
         gas_budget: :obj: `integer`
         recipient: :obj:
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -1201,12 +1173,11 @@ def transfer_sui(
 
     Parameters
     ----------
-    signer: :obj:
+        signer: :obj:
         sui_object_id: :obj:
         gas_budget: :obj: `integer`
         recipient: :obj:
         amount: :obj: `integer`
-
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
