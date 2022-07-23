@@ -21,9 +21,10 @@ sui_rpc = envs.sui_rpc
 ext_sign_url = envs.ext_sign_url
 
 
-def sync(wallet):
+def sync(wallet, endpoint=sui_rpc, timeout=_default_timeout):
     # # Will only work with sui_rpc atm
-    rpc_methods.sync_account_state(wallet, endpoint=sui_rpc, timeout=_default_timeout)
+    synced = rpc_methods.sync_account_state(wallet, endpoint=endpoint, timeout=timeout)
+    log.info(f"Wallet:  {wallet}  synced  at endpoint  {endpoint}\n")
 
 
 def do_count(num=10):
@@ -56,7 +57,7 @@ def get_signed(address: str, tx: str):
     import requests
 
     # # test request
-    headers = {"ext_sign_token": ext_sign_token}
+    headers = {"token": ext_sign_token}
     params = {"signed_txns": [{"owner_address": address, "tx_bytes": tx}]}
 
     log.info(
@@ -64,6 +65,7 @@ def get_signed(address: str, tx: str):
     )
     # send request
     response = requests.post(ext_sign_url, params=json.dumps(params), headers=headers)
+    log.info(headers)
     log.info(f"Signed Response  ::  {response.json()}\n")
 
     return response.json()
@@ -97,6 +99,9 @@ def send_sui_tx(
     signed_txns = get_signed(signer, tx_bytes)
 
     # # 3, Execute the transaction using the transaction data, signature and public key.#
+
+    sent = 0
+
     for x in signed_txns:
         res = rpc_methods.execute_transaction(
             tx_bytes,
@@ -106,25 +111,37 @@ def send_sui_tx(
             timeout=_default_timeout,
         )
         log.info(f"Sent Response  ::  {res}\n")
+        try:
+            if res["EffectResponse"]["effects"]["status"]["status"] == "success":
+                sent += amount
+        except KeyError as e:
+            log.error(f"Status not found.. {e}")
+
+    return sent
 
 
-def send_sui(num_req, wallet, wallet1, amount, _gas_budget=100):
+def send_sui(txns_per_run, wallet, wallet1, amount, _gas_budget=100):
+
+    sent = 0
 
     st = datetime.datetime.now()
 
-    for i, _ in enumerate(range(num_req)):
+    for i, _ in enumerate(range(txns_per_run)):
         owned = get_owned(wallet, _default_endpoint=sui_rpc)
         try:
             sui_object_id = owned[0]["objectId"]
-            send_sui_tx(wallet, wallet1, sui_object_id, _gas_budget, amount)
-            pass
+            amount_sent = send_sui_tx(
+                wallet, wallet1, sui_object_id, _gas_budget, amount
+            )
+            sent += amount_sent
         except RPCError as e:
             log.error(e)
-        except Exception as e:
-            log.error(f"FAILED on .something else.. : {e}")
+        # except Exception as e:
+        #     log.error(f"FAILED on something else.. : {e}")
 
     et = datetime.datetime.now()
-    log.info(f"Time ::  {et-st} for {num_req} calls")
+    log.info(f"Time ::  {et-st} for {txns_per_run} calls")
+    return sent
 
 
 def send_obj_tx(
@@ -166,11 +183,11 @@ def send_obj_tx(
         log.info(f"Sent Response  ::  {res}\n")
 
 
-def send_obj(num_req, wallet, wallet1, _gas_budget=20):
+def send_obj(txns_per_run, wallet, wallet1, _gas_budget=20):
 
     st = datetime.datetime.now()
 
-    for i, _ in enumerate(range(num_req)):
+    for i, _ in enumerate(range(txns_per_run)):
 
         owned = get_owned(wallet, _default_endpoint=sui_rpc)
         try:
@@ -184,7 +201,7 @@ def send_obj(num_req, wallet, wallet1, _gas_budget=20):
             log.error(f"FAILED on .something else.. : {e}")
 
     et = datetime.datetime.now()
-    log.info(f"Time ::  {et-st} for {num_req} calls")
+    log.info(f"Time ::  {et-st} for {txns_per_run} calls")
 
 
 def get_from_to(wallet):
@@ -246,13 +263,16 @@ def tx_by_mutated(obj):
 
 
 if __name__ == "__main__":
-    num_req = 100
+
     gas = 100
-    amount = 100
+    amount = 1
     SLEEP = 1
     do_send_coins = True
 
     RUNS = 10
+    txns_per_run = 10
+
+    sui_coins_sent = 0
 
     for i in range(RUNS):
         log.info(f"Run:  {i+1}\n")
@@ -274,7 +294,12 @@ if __name__ == "__main__":
         # https://github.com/johnashu/Sign_Sui_Tx
 
         if do_send_coins:
-            # send_obj(num_req, wallet, wallet2, _gas_budget=gas)
-            send_sui(num_req, wallet, wallet1, amount, _gas_budget=gas)
+            send_obj(txns_per_run, wallet, wallet2, _gas_budget=gas)
+            sui_coins_sent += send_sui(
+                txns_per_run, wallet, wallet1, amount, _gas_budget=gas
+            )
         sleep(SLEEP)
-    log.info(f"Completed {RUNS}..\n")
+
+    log.info(
+        f"Completed {RUNS}..\nSent {sui_coins_sent} $SUI Coins in {RUNS * txns_per_run} Transactions\n"
+    )
