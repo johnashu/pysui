@@ -42,6 +42,3 @@ get_tx = rpc_methods.get_transaction(
 print(get_tx)
 
 ```
-
-
-# Test FullNode

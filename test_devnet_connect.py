@@ -71,6 +71,40 @@ def get_signed(address: str, tx: str):
     return response.json()
 
 
+def sign_and_execute(
+    tx: list,
+    signer: str,
+    endpoint: str = sui_rpc,
+    timeout: str = _default_timeout,
+) -> int:
+    # # 2, Sign the transaction using the Sui signtool#
+    # f"sui keytool sign --address {signer} --data {tx['txBytes']}"
+    # signed_txn, pub_key = '',''
+    tx_bytes = tx["txBytes"]
+    signed_txns = get_signed(signer, tx_bytes)
+
+    # # 3, Execute the transaction using the transaction data, signature and public key.#
+
+    sent = 0
+
+    for x in signed_txns:
+        res = rpc_methods.execute_transaction(
+            tx_bytes,
+            x.get("signed_txn"),
+            x.get("pub_key"),
+            endpoint=endpoint,
+            timeout=timeout,
+        )
+        log.info(f"Sent Response  ::  {res}\n")
+        try:
+            if res["EffectResponse"]["effects"]["status"]["status"] == "success":
+                sent += amount
+        except KeyError as e:
+            log.error(f"Status not found.. {e}")
+
+    return sent
+
+
 def send_sui_tx(
     signer: str,
     recipient: str,
@@ -91,33 +125,7 @@ def send_sui_tx(
         timeout=_default_timeout,
     )
     log.info(f"TX response  ::  {tx}\n")
-
-    # # 2, Sign the transaction using the Sui signtool#
-    # f"sui keytool sign --address {signer} --data {tx['txBytes']}"
-    # signed_txn, pub_key = '',''
-    tx_bytes = tx["txBytes"]
-    signed_txns = get_signed(signer, tx_bytes)
-
-    # # 3, Execute the transaction using the transaction data, signature and public key.#
-
-    sent = 0
-
-    for x in signed_txns:
-        res = rpc_methods.execute_transaction(
-            tx_bytes,
-            x.get("signed_txn"),
-            x.get("pub_key"),
-            endpoint=_default_endpoint,
-            timeout=_default_timeout,
-        )
-        log.info(f"Sent Response  ::  {res}\n")
-        try:
-            if res["EffectResponse"]["effects"]["status"]["status"] == "success":
-                sent += amount
-        except KeyError as e:
-            log.error(f"Status not found.. {e}")
-
-    return sent
+    return sign_and_execute(tx, signer)
 
 
 def send_sui(txns_per_run, wallet, wallet1, amount, _gas_budget=100):
@@ -129,15 +137,15 @@ def send_sui(txns_per_run, wallet, wallet1, amount, _gas_budget=100):
     for i, _ in enumerate(range(txns_per_run)):
         owned = get_owned(wallet, _default_endpoint=sui_rpc)
         try:
-            sui_object_id = owned[0]["objectId"]
+            sui_object_id = owned[1]["objectId"]
             amount_sent = send_sui_tx(
                 wallet, wallet1, sui_object_id, _gas_budget, amount
             )
             sent += amount_sent
         except RPCError as e:
             log.error(e)
-        # except Exception as e:
-        #     log.error(f"FAILED on something else.. : {e}")
+        except Exception as e:
+            log.error(f"FAILED on something else.. : {e}")
 
     et = datetime.datetime.now()
     log.info(f"Time ::  {et-st} for {txns_per_run} calls")
@@ -152,9 +160,9 @@ def send_obj_tx(
     _gas_budget: int,
     _default_endpoint=sui_rpc,
 ) -> bool:
-    # 1, Create a transaction to transfer a Sui coin from one address to another:#
+    # 1, Create a transaction to transfer an object from one address to another:#
 
-    tx = rpc_methods.transfer_sui(
+    tx = rpc_methods.transfer_object(
         _from,
         _object_id,
         _gas_object_id,
@@ -165,25 +173,10 @@ def send_obj_tx(
     )
     log.info(f"TX response  ::  {tx}\n")
 
-    # # 2, Sign the transaction using the Sui signtool#
-    # f"sui keytool sign --address {_from} --data {tx['txBytes']}"
-    # signed_txn, pub_key = '',''
-    tx_bytes = tx["txBytes"]
-    signed_txns = get_signed(_from, tx_bytes)
-
-    # # 3, Execute the transaction using the transaction data, signature and public key.#
-    for x in signed_txns:
-        res = rpc_methods.execute_transaction(
-            tx_bytes,
-            x.get("signed_txn"),
-            x.get("pub_key"),
-            endpoint=_default_endpoint,
-            timeout=_default_timeout,
-        )
-        log.info(f"Sent Response  ::  {res}\n")
+    return sign_and_execute(tx, _from)
 
 
-def send_obj(txns_per_run, wallet, wallet1, _gas_budget=20):
+def send_obj(txns_per_run, wallet, wallet1, _gas_budget=100):
 
     st = datetime.datetime.now()
 
@@ -267,7 +260,10 @@ if __name__ == "__main__":
     gas = 100
     amount = 1
     SLEEP = 1
-    do_send_coins = True
+
+    # Only if External signing is setup and running.
+    # https://github.com/johnashu/Sign_Sui_Tx
+    do_send_coins_and_objects = True
 
     RUNS = 10
     txns_per_run = 10
@@ -290,11 +286,10 @@ if __name__ == "__main__":
         tx_by_input(obj)
         tx_by_mutated(obj)
 
-        # Only if External signing is setup and running.
-        # https://github.com/johnashu/Sign_Sui_Tx
+        if do_send_coins_and_objects:
 
-        if do_send_coins:
             send_obj(txns_per_run, wallet, wallet2, _gas_budget=gas)
+
             sui_coins_sent += send_sui(
                 txns_per_run, wallet, wallet1, amount, _gas_budget=gas
             )
