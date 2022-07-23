@@ -12,6 +12,10 @@ This will generate a file named `./pysui/methods/rpc_methods.py`
 ```
 _default_endpoint=http://<NODE_ADDRESS>:9000
 _default_timeout=30
+sui_rpc=https://gateway.devnet.sui.io:443
+
+ext_sign_token=<EXT_TOKEN>
+ext_sign_url=http://<EXT_SIGN ADDRESS>:5000
 ```
 
 **Example Program**
@@ -20,8 +24,7 @@ _default_timeout=30
 from pysui.methods import rpc_methods
 from pysui.includes.config import *
 
-sui_rpc ='https://gateway.devnet.sui.io:443'
-_default_endpoint = sui_rpc
+_default_endpoint = envs.sui_rpc
 # _default_endpoint = envs._default_endpoint
 _default_timeout = envs._default_timeout
 
@@ -39,3 +42,6 @@ get_tx = rpc_methods.get_transaction(
 print(get_tx)
 
 ```
+
+
+# Test FullNode

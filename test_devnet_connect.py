@@ -14,18 +14,16 @@ wallet1 = "0x2c53ba8163f740bb278194ac799f79275fe8dc6a"
 # theme pelican doll deal olympic popular labor miracle device normal other beef
 wallet2 = "0x0e430e75317ac6dafe691495ede6283d7da0cb8d"
 
-token = envs.token
+ext_sign_token = envs.ext_sign_token
 _default_timeout = envs._default_timeout
 _default_endpoint = envs._default_endpoint
-sui_devnet = "https://gateway.devnet.sui.io:443"
+sui_rpc = envs.sui_rpc
 ext_sign_url = envs.ext_sign_url
 
 
 def sync(wallet):
-    # # Will only work with sui_devnet atm
-    rpc_methods.sync_account_state(
-        wallet, endpoint=sui_devnet, timeout=_default_timeout
-    )
+    # # Will only work with sui_rpc atm
+    rpc_methods.sync_account_state(wallet, endpoint=sui_rpc, timeout=_default_timeout)
 
 
 def do_count(num=10):
@@ -58,7 +56,7 @@ def get_signed(address: str, tx: str):
     import requests
 
     # # test request
-    headers = {"token": token}
+    headers = {"ext_sign_token": ext_sign_token}
     params = {"signed_txns": [{"owner_address": address, "tx_bytes": tx}]}
 
     log.info(
@@ -77,7 +75,7 @@ def send_sui_tx(
     sui_object_id: str,
     gas_budget: int,
     amount: int,
-    _default_endpoint=sui_devnet,
+    _default_endpoint=sui_rpc,
 ) -> bool:
     # 1, Create a transaction to transfer a Sui coin from one address to another:#
 
@@ -115,7 +113,7 @@ def send_sui(num_req, wallet, wallet1, amount, _gas_budget=100):
     st = datetime.datetime.now()
 
     for i, _ in enumerate(range(num_req)):
-        owned = get_owned(wallet, _default_endpoint=sui_devnet)
+        owned = get_owned(wallet, _default_endpoint=sui_rpc)
         try:
             sui_object_id = owned[0]["objectId"]
             send_sui_tx(wallet, wallet1, sui_object_id, _gas_budget, amount)
@@ -135,7 +133,7 @@ def send_obj_tx(
     _object_id: str,
     _gas_object_id: str,
     _gas_budget: int,
-    _default_endpoint=sui_devnet,
+    _default_endpoint=sui_rpc,
 ) -> bool:
     # 1, Create a transaction to transfer a Sui coin from one address to another:#
 
@@ -174,7 +172,7 @@ def send_obj(num_req, wallet, wallet1, _gas_budget=20):
 
     for i, _ in enumerate(range(num_req)):
 
-        owned = get_owned(wallet, _default_endpoint=sui_devnet)
+        owned = get_owned(wallet, _default_endpoint=sui_rpc)
         try:
             _object_id = owned[0]["objectId"]
             _gas_object_id = owned[1]["objectId"]
@@ -272,7 +270,9 @@ if __name__ == "__main__":
         tx_by_input(obj)
         tx_by_mutated(obj)
 
-        # Only if signing is setup.
+        # Only if External signing is setup and running.
+        # https://github.com/johnashu/Sign_Sui_Tx
+
         if do_send_coins:
             # send_obj(num_req, wallet, wallet2, _gas_budget=gas)
             send_sui(num_req, wallet, wallet1, amount, _gas_budget=gas)
