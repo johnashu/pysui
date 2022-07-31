@@ -89,6 +89,7 @@ def sign_and_execute(
     for x in signed_txns:
         res = rpc_methods.execute_transaction(
             tx_bytes,
+            # '1',
             x.get("signed_txn"),
             x.get("pub_key"),
             endpoint=endpoint,
@@ -260,7 +261,7 @@ if __name__ == "__main__":
     # https://github.com/johnashu/Sign_Sui_Tx
     do_send_coins_and_objects = True
 
-    RUNS = 10
+    RUNS = 10000
     txns_per_run = 10
 
     sui_coins_sent = 0

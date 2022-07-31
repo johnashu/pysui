@@ -17,14 +17,14 @@ def batch_transaction(
     timeout=_default_timeout,
 ) -> list:
     """
-    the gas budget, the transaction will fail if the gas cost exceed the budget
+    Batch Transaction
 
     Parameters
     ----------
-        signer: :obj:  [ the transaction signer's Sui address ]
-        single_transaction_params: :obj: `array`  [ list of transaction request parameters ]
-        gas: :obj:  [ gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided ]
-        gas_budget: :obj: `integer`  [ the gas budget, the transaction will fail if the gas cost exceed the budget ]
+        signer: :obj:
+        single_transaction_params: :obj: `array`
+        gas: :obj:
+        gas_budget: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -54,22 +54,16 @@ def batch_transaction(
 
 
 def execute_transaction(
-    tx_bytes,
-    flag,
-    signature,
-    pub_key,
-    endpoint=_default_endpoint,
-    timeout=_default_timeout,
+    tx_bytes, signature, pub_key, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    signer's public key, as base-64 encoded string
+    Execute the transaction using the transaction data, signature and public key.
 
     Parameters
     ----------
-        tx_bytes: :obj:  [ transaction data bytes, as base-64 encoded string ]
-        flag: :obj:  [ Flag of the signature scheme that is used. ]
-        signature: :obj:  [ transaction signature, as base-64 encoded string ]
-        pub_key: :obj:  [ signer's public key, as base-64 encoded string ]
+        tx_bytes: :obj:
+        signature: :obj:
+        pub_key: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -89,7 +83,7 @@ def execute_transaction(
     https://docs.sui.io/build/json-rpc
     """
     method = "sui_executeTransaction"
-    params = [tx_bytes, flag, signature, pub_key]
+    params = [tx_bytes, signature, pub_key]
     try:
         return rpc_request(method, params=params, endpoint=endpoint, timeout=timeout)[
             "result"
@@ -107,14 +101,14 @@ def get_events_by_event_type(
     timeout=_default_timeout,
 ) -> list:
     """
-    the matching events' timestamp will be before the specified end time
+    Get Events By Event Type
 
     Parameters
     ----------
-        event_type: :obj: `string`  [ the event type, e.g. '0x2::devnet_nft::MintNFTEvent' ]
-        count: :obj: `integer`  [ maximum size of the result ]
-        start_time: :obj: `integer`  [ the matching events' timestamp will be after the specified start time ]
-        end_time: :obj: `integer`  [ the matching events' timestamp will be before the specified end time ]
+        event_type: :obj: `string`
+        count: :obj: `integer`
+        start_time: :obj: `integer`
+        end_time: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -153,15 +147,15 @@ def get_events_by_module(
     timeout=_default_timeout,
 ) -> list:
     """
-    the matching events' timestamp will be before the specified end time
+    Get Events By Module
 
     Parameters
     ----------
-        package: :obj:  [ the Move package ID ]
-        module: :obj: `string`  [ the module name ]
-        count: :obj: `integer`  [ maximum size of the result ]
-        start_time: :obj: `integer`  [ the matching events' timestamp will be after the specified start time ]
-        end_time: :obj: `integer`  [ the matching events' timestamp will be before the specified end time ]
+        package: :obj:
+        module: :obj: `string`
+        count: :obj: `integer`
+        start_time: :obj: `integer`
+        end_time: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -199,14 +193,14 @@ def get_events_by_object(
     timeout=_default_timeout,
 ) -> list:
     """
-    the matching events' timestamp will be before the specified end time
+    Get Events By Object
 
     Parameters
     ----------
-        object: :obj:  [ the object ID ]
-        count: :obj: `integer`  [ maximum size of the result ]
-        start_time: :obj: `integer`  [ the matching events' timestamp will be after the specified start time ]
-        end_time: :obj: `integer`  [ the matching events' timestamp will be before the specified end time ]
+        object: :obj:
+        count: :obj: `integer`
+        start_time: :obj: `integer`
+        end_time: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -244,14 +238,14 @@ def get_events_by_owner(
     timeout=_default_timeout,
 ) -> list:
     """
-    the matching events' timestamp will be before the specified end time
+    Get Events By Owner
 
     Parameters
     ----------
-        owner: :obj:  [ the owner's Sui address ]
-        count: :obj: `integer`  [ maximum size of the result ]
-        start_time: :obj: `integer`  [ the matching events' timestamp will be after the specified start time ]
-        end_time: :obj: `integer`  [ the matching events' timestamp will be before the specified end time ]
+        owner: :obj:
+        count: :obj: `integer`
+        start_time: :obj: `integer`
+        end_time: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -289,14 +283,14 @@ def get_events_by_sender(
     timeout=_default_timeout,
 ) -> list:
     """
-    the matching events' timestamp will be before the specified end time
+    Get Events By Sender
 
     Parameters
     ----------
-        sender: :obj:  [ the sender's Sui address ]
-        count: :obj: `integer`  [ maximum size of the result ]
-        start_time: :obj: `integer`  [ the matching events' timestamp will be after the specified start time ]
-        end_time: :obj: `integer`  [ the matching events' timestamp will be before the specified end time ]
+        sender: :obj:
+        count: :obj: `integer`
+        start_time: :obj: `integer`
+        end_time: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -329,11 +323,11 @@ def get_events_by_transaction(
     digest, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    digest of the transaction, as base-64 encoded string
+    Get Events By Transaction
 
     Parameters
     ----------
-        digest: :obj:  [ digest of the transaction, as base-64 encoded string ]
+        digest: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -364,11 +358,11 @@ def get_events_by_transaction(
 
 def get_object(object_id, endpoint=_default_endpoint, timeout=_default_timeout) -> list:
     """
-    the ID of the queried object
+    Return the object information for a specified object
 
     Parameters
     ----------
-        object_id: :obj:  [ the ID of the queried object ]
+        object_id: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -401,11 +395,11 @@ def get_objects_owned_by_address(
     address, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the owner's Sui address
+    Return the list of objects owned by an address.
 
     Parameters
     ----------
-        address: :obj:  [ the owner's Sui address ]
+        address: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -438,11 +432,11 @@ def get_objects_owned_by_object(
     object_id, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the ID of the owner object
+    Get Objects Owned By Object
 
     Parameters
     ----------
-        object_id: :obj:  [ the ID of the owner object ]
+        object_id: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -475,11 +469,11 @@ def get_raw_object(
     object_id, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the id of the object
+    Return the raw BCS serialised move object bytes for a specified object
 
     Parameters
     ----------
-        object_id: :obj:  [ the id of the object ]
+        object_id: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -512,11 +506,11 @@ def get_recent_transactions(
     count, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    maximum size of the result
+    Get Recent Transactions
 
     Parameters
     ----------
-        count: :obj: `integer`  [ maximum size of the result ]
+        count: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -549,7 +543,7 @@ def get_total_transaction_number(
     endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    Return the total number of transactions known to the server.
+    Get Total Transaction Number
 
     Parameters
     ----------
@@ -585,11 +579,11 @@ def get_transaction(
     digest, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the digest of the queried transaction
+    Get Transaction
 
     Parameters
     ----------
-        digest: :obj:  [ the digest of the queried transaction ]
+        digest: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -622,11 +616,11 @@ def get_transactions_by_input_object(
     object, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the ID of the input object
+    Get Transactions By Input Object
 
     Parameters
     ----------
-        object: :obj:  [ the ID of the input object ]
+        object: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -659,13 +653,13 @@ def get_transactions_by_move_function(
     package, module, function, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the move function name, e.g. `mint`
+    Get Transactions By Move Function
 
     Parameters
     ----------
-        package: :obj:  [ the Move package ID, e.g. `0x2` ]
-        module: :obj: `string`  [ the Move module name, e.g. `devnet_nft` ]
-        function: :obj: `string`  [ the move function name, e.g. `mint` ]
+        package: :obj:
+        module: :obj: `string`
+        function: :obj: `string`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -698,11 +692,11 @@ def get_transactions_by_mutated_object(
     object, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the ID of the mutated object
+    Get Transactions By Mutated Object
 
     Parameters
     ----------
-        object: :obj:  [ the ID of the mutated object ]
+        object: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -735,11 +729,11 @@ def get_transactions_from_address(
     addr, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the sender's Sui address
+    Get Transactions From Address
 
     Parameters
     ----------
-        addr: :obj:  [ the sender's Sui address ]
+        addr: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -772,12 +766,12 @@ def get_transactions_in_range(
     start, end, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the matching transactions' sequence number will be less than the ending sequence number
+    Get Transactions In Range
 
     Parameters
     ----------
-        start: :obj: `integer`  [ the matching transactions' sequence number will be greater than or equals to the starting sequence number ]
-        end: :obj: `integer`  [ the matching transactions' sequence number will be less than the ending sequence number ]
+        start: :obj: `integer`
+        end: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -810,11 +804,11 @@ def get_transactions_to_address(
     addr, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the recipient's Sui address
+    Get Transactions To Address
 
     Parameters
     ----------
-        addr: :obj:  [ the recipient's Sui address ]
+        addr: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -853,15 +847,15 @@ def merge_coins(
     timeout=_default_timeout,
 ) -> list:
     """
-    the gas budget, the transaction will fail if the gas cost exceed the budget
+    Merge Coins
 
     Parameters
     ----------
-        signer: :obj:  [ the transaction signer's Sui address ]
-        primary_coin: :obj:  [ the coin object to merge into, this coin will remain after the transaction ]
-        coin_to_merge: :obj:  [ the coin object to be merged, this coin will be destroyed, the balance will be added to `primary_coin` ]
-        gas: :obj:  [ gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided ]
-        gas_budget: :obj: `integer`  [ the gas budget, the transaction will fail if the gas cost exceed the budget ]
+        signer: :obj:
+        primary_coin: :obj:
+        coin_to_merge: :obj:
+        gas: :obj:
+        gas_budget: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -903,18 +897,18 @@ def move_call(
     timeout=_default_timeout,
 ) -> list:
     """
-    the gas budget, the transaction will fail if the gas cost exceed the budget
+    Execute a Move call transaction by calling the specified function in the module of a given package.
 
     Parameters
     ----------
-        signer: :obj:  [ the transaction signer's Sui address ]
-        package_object_id: :obj:  [ the Move package ID, e.g. `0x2` ]
-        module: :obj: `string`  [ the Move module name, e.g. `devnet_nft` ]
-        function: :obj: `string`  [ the move function name, e.g. `mint` ]
-        type_arguments: :obj: `array`  [ the type arguments of the Move function ]
-        arguments: :obj: `array`  [ the arguments to be passed into the Move function, in [SuiJson](https://docs.sui.io/build/sui-json) format ]
-        gas: :obj:  [ gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided ]
-        gas_budget: :obj: `integer`  [ the gas budget, the transaction will fail if the gas cost exceed the budget ]
+        signer: :obj:
+        package_object_id: :obj:
+        module: :obj: `string`
+        function: :obj: `string`
+        type_arguments: :obj: `array`
+        arguments: :obj: `array`
+        gas: :obj:
+        gas_budget: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -961,14 +955,14 @@ def publish(
     timeout=_default_timeout,
 ) -> list:
     """
-    the gas budget, the transaction will fail if the gas cost exceed the budget
+    Publish Move module.
 
     Parameters
     ----------
-        sender: :obj:  [ the transaction signer's Sui address ]
-        compiled_modules: :obj: `array`  [ the compiled bytes of a move module, the ]
-        gas: :obj:  [ gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided ]
-        gas_budget: :obj: `integer`  [ the gas budget, the transaction will fail if the gas cost exceed the budget ]
+        sender: :obj:
+        compiled_modules: :obj: `array`
+        gas: :obj:
+        gas_budget: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -1007,15 +1001,15 @@ def split_coin(
     timeout=_default_timeout,
 ) -> list:
     """
-    the gas budget, the transaction will fail if the gas cost exceed the budget
+    Split Coin
 
     Parameters
     ----------
-        signer: :obj:  [ the transaction signer's Sui address ]
-        coin_object_id: :obj:  [ the coin object to be spilt ]
-        split_amounts: :obj: `array`  [ the amounts to split out from the coin ]
-        gas: :obj:  [ gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided ]
-        gas_budget: :obj: `integer`  [ the gas budget, the transaction will fail if the gas cost exceed the budget ]
+        signer: :obj:
+        coin_object_id: :obj:
+        split_amounts: :obj: `array`
+        gas: :obj:
+        gas_budget: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -1048,11 +1042,11 @@ def subscribe_event(
     filter, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the filter criteria of the event stream, see the [Sui docs](https://docs.sui.io/build/pubsub#event-filters) for detailed examples.
+    Subscribe Event
 
     Parameters
     ----------
-        filter: :obj:  [ the filter criteria of the event stream, see the [Sui docs](https://docs.sui.io/build/pubsub#event-filters) for detailed examples. ]
+        filter: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -1085,11 +1079,11 @@ def sync_account_state(
     address, endpoint=_default_endpoint, timeout=_default_timeout
 ) -> list:
     """
-    the Sui address to be synchronized
+    Synchronize client state with validators.
 
     Parameters
     ----------
-        address: :obj:  [ the Sui address to be synchronized ]
+        address: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -1128,15 +1122,15 @@ def transfer_object(
     timeout=_default_timeout,
 ) -> list:
     """
-    the recipient's Sui address
+    Create a transaction to transfer an object from one address to another. The object\'s type must allow public transfers
 
     Parameters
     ----------
-        signer: :obj:  [ the transaction signer's Sui address ]
-        object_id: :obj:  [ the ID of the object to be transferred ]
-        gas: :obj:  [ gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided ]
-        gas_budget: :obj: `integer`  [ the gas budget, the transaction will fail if the gas cost exceed the budget ]
-        recipient: :obj:  [ the recipient's Sui address ]
+        signer: :obj:
+        object_id: :obj:
+        gas: :obj:
+        gas_budget: :obj: `integer`
+        recipient: :obj:
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional
@@ -1175,15 +1169,15 @@ def transfer_sui(
     timeout=_default_timeout,
 ) -> list:
     """
-    gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided
+    Send SUI coin object to a Sui address. The SUI object is also used as the gas object.
 
     Parameters
     ----------
-        signer: :obj:  [ the transaction signer's Sui address ]
-        sui_object_id: :obj:  [  ]
-        gas_budget: :obj: `integer`  [ the gas budget, the transaction will fail if the gas cost exceed the budget ]
-        recipient: :obj:  [  ]
-        amount: :obj: `integer`  [ gas object to be used in this transaction, the gateway will pick one from the signer's possession if not provided ]
+        signer: :obj:
+        sui_object_id: :obj:
+        gas_budget: :obj: `integer`
+        recipient: :obj:
+        amount: :obj: `integer`
     endpoint: :obj:`str`, optional
         Endpoint to send request to
     timeout: :obj:`int`, optional

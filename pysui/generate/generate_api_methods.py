@@ -7,9 +7,10 @@ def camel_to_snake(string):
     return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
 
 
-def create_api_data(fn: str) -> None:
+def create_api_data(fn: str, api_url: str) -> None:
     api_data = requests.get(api_url).json()
     file_op.save_json(fn, api_data)
+    return api_data
 
 
 def open_api_data(fn: str, show: bool = False) -> dict:
@@ -41,7 +42,8 @@ def build_method(
     args_desc = ""
     for a in params:
         t = a.get("schema").get("type")
-        args_desc += f"\n\t{a['name']}: :obj: {'' if not t else f'`{t}`'}"
+        desc = a.get("description")
+        args_desc += f"\n\t{a['name']}: :obj: {'' if not t else f'`{t}` '} [ {'' if not desc else f'{desc}'} ]"
     params = [x["name"] for x in params]
     args = params = ", ".join(params)
     if args:
